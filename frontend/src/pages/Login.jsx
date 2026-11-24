@@ -21,7 +21,11 @@ export const Login = () => {
       addToast(`Logged in successfully as ${username}`, 'success');
       navigate('/');
     } catch (err) {
-      addToast(err.response?.data?.error || 'Invalid credentials. Please verify your login.', 'error');
+      if (!err.response) {
+        addToast('Cannot connect to backend server at http://127.0.0.1:8000. Please ensure "python manage.py runserver" is running in your terminal!', 'error', 8000);
+      } else {
+        addToast(err.response?.data?.error || 'Invalid credentials. Please verify your login.', 'error');
+      }
     } finally {
       setLoading(false);
     }
